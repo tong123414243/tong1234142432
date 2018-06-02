@@ -1,0 +1,391 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="191980662@qq.com">
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="Tong">
+  
+  
+  
+  
+    <meta name="description" content="一 HTTP与HTTPS协议
+1.1 HTTP协议
+　　1. HTTP协议（HyperText Transfer Protocol，超文本传输协议）：是一种发布和接收HTML页面的方法。　　2. HTTPS（HyperText Transfer Proctocol over Secure Socket Layer）：加强版HTTPS，基于HTTP增加SSL层。　　3. SSL(Secure ...">
+  
+  <title>爬虫2：http与https协议 [ Tong ]</title>
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+    <div class="item prev">
+      <a href="/2018/06/01/hello-world/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Hello World
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2018/05/01/爬虫1：网络爬虫概念与分类/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        爬虫1:网络爬虫概念与分类
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onClick="openUserCard()">
+          <img id="avatar" src="https://s1.ax2x.com/2018/06/01/7civz.md.jpg"/>
+          <div id="homelink">Tong</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">Categories</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/tong123414243">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  <article id="post">
+    <h1>爬虫2：http与https协议</h1>
+    <p class="page-title-sub">
+      <span id = "post-title-date">Created at 2018-05-02</span>
+      
+        <span id = "post-title-updated">Updated at 2018-06-03</span>
+      
+      
+      <span id = "post-title-categories">Category
+      
+      
+        
+        
+        <a href="/categories/技术/">技术</a>
+      
+      </span>
+      
+      
+      <span id = "post-title-tags">
+      Tag
+      
+      
+        
+        
+        <a href="/tags/spider/">spider</a>
+      
+      </span>
+      
+    </p>
+    
+    <h2 id="一-HTTP与HTTPS协议"><a href="#一-HTTP与HTTPS协议" class="headerlink" title="一 HTTP与HTTPS协议"></a>一 HTTP与HTTPS协议</h2><hr>
+<h3 id="1-1-HTTP协议"><a href="#1-1-HTTP协议" class="headerlink" title="1.1 HTTP协议"></a>1.1 HTTP协议</h3><blockquote>
+<p>　　1. HTTP协议（HyperText Transfer Protocol，超文本传输协议）：是一种发布和接收HTML页面的方法。<br>　　2. HTTPS（HyperText Transfer Proctocol over Secure Socket Layer）：加强版HTTPS，基于HTTP增加SSL层。<br>　　3. SSL(Secure Sockets Layer 安全套阶层)主要用于web安全传输协议，在传输层中对网络连接进行加密，保证数据传输安全。<br>　　4.URL（Universal Resource Locator，统一资源定位符）：完整地描述internet上资源地址的一种标志方法。<br>　　　　·HTTP_PORT = 80<br>　　　　·HTTPS_PORT = 443</p>
+</blockquote>
+<blockquote>
+<p>　　*工作原理：<br>　　　　浏览器的主要功能是向服务器发出请求，在浏览器窗口中展示您选择的网络资源，HTTP是一套计算机通过网络进行通信的规则。<br>　　　　而网络爬虫抓取过程 = 模拟浏览器操作的过程  </p>
+</blockquote>
+<h2 id="二-HTTP请求与响应"><a href="#二-HTTP请求与响应" class="headerlink" title="二 HTTP请求与响应"></a>二 HTTP请求与响应</h2><hr>
+<p>　　http通信：客户端请求消息(request)、服务端响应消息（response）  </p>
+<h3 id="2-1-浏览器请求过程"><a href="#2-1-浏览器请求过程" class="headerlink" title="2.1 浏览器请求过程"></a>2.1 浏览器请求过程</h3><blockquote>
+<p>　　1.输入URL、浏览器发送http请求（request）给http服务器，以获取URL的html文件；<br>　　2.http服务器响应（response）浏览器，返送请求的文件对象；<br>　　3.浏览器分析获得的html文件，继续向http服务器请求html内部引用的其他文件，如，css、js等；<br>　　4.所有请求资源下载完毕后，根据html语法结构，显示内容。</p>
+</blockquote>
+<h3 id="2-2-URL-格式"><a href="#2-2-URL-格式" class="headerlink" title="2.2 URL 格式"></a>2.2 URL 格式</h3><blockquote>
+<p>　　scheme://host[:port#]/path/…/[?query-string][#anchor]<br>　　- scheme：协议(例如：http, https, ftp)<br>　　- host：服务器的IP地址或者域名<br>　　- port#：服务器的端口（如果是走协议默认端口，缺省端口80）<br>　　- path：访问资源的路径<br>　　- query-string：参数，发送给http服务器的数据<br>　　- anchor：锚（跳转到网页的指定锚点位置）</p>
+</blockquote>
+<h3 id="2-3-http请求格式"><a href="#2-3-http请求格式" class="headerlink" title="2.3 http请求格式"></a>2.3 http请求格式</h3><blockquote>
+<p>　　请求行 | 请求头部 | 请求头部 | 空行 | 请求数据  </p>
+</blockquote>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">　　<span class="comment">#典型http请求示例：  </span></span><br><span class="line">　　GET https://www.baidu.com/ HTTP/<span class="number">1.1</span>   <span class="comment">#- url http标准/版本号 </span></span><br><span class="line">　　Host: www.baidu.com     	<span class="comment"># Host（主机与端口号）</span></span><br><span class="line">　　Connection: keep-alive	 	<span class="comment">#Connection （连接类型） - 表示客户端与服务器连接类型  </span></span><br><span class="line">　　Upgrade-Insecure-Requests: <span class="number">1</span>  		<span class="comment">#升级为https请求，加载 http 资源时自动替换成 https 请求</span></span><br><span class="line">　　User-Agent: Mozilla/<span class="number">5.0</span> (Windows NT <span class="number">10.0</span>; Win64; x64) AppleWebKit/<span class="number">537.36</span> (KHTML, like Gecko) Chrome/<span class="number">54.0</span>.<span class="number">2840.99</span> Safari/<span class="number">537.36</span> 		<span class="comment">#客户浏览器名称</span></span><br><span class="line">　　Accept: text/html,application/xhtml+xml,application/xml;<span class="attr">q=0.9,image/webp,*/*;q=0.8</span>		<span class="comment">#传输文件类型，*/*：表示什么都可以接收。image/gif：表明客户端希望接受GIF图像格式的资源；text/html：表明客户端希望接受html文本。text/html, application/xhtml+xml;q=0.9, image/*;q=0.8：表示浏览器</span></span><br><span class="line">　　Referer: http://www.baidu.com/		<span class="comment"># 页面跳转处，表明产生请求的网页来自于哪个URL，用户是从该 Referer页面访问到当前请求的页面。这个属性可以用来跟踪Web请求来自哪个页面</span></span><br><span class="line">　　Accept-Encoding: gzip, deflate, sdch, br  		<span class="comment">#文件编解码格式  指出浏览器可以接受的编码方式。编码方式不同于文件格式，它是为了压缩文件并加速文件传递速度</span></span><br><span class="line">　　Accept-Language: zh-CN,zh;<span class="attr">q=0.8,en;q=0.6</span>		<span class="comment">#语言种类  </span></span><br><span class="line">　　Accept-Charset:iso-<span class="number">8859</span>-<span class="number">1</span>,gb2312,utf-<span class="number">8</span>		<span class="comment">#字符编码  如果在请求消息中没有设置这个域，缺省是任何字符集都可以接受</span></span><br><span class="line">　　Cookie: <span class="attr">BAIDUID=04E4001F34EA74AD4601512DD3C41A7B:FG=1;</span> <span class="attr">BIDUPSID=04E4001F34EA74AD4601512DD3C41A7B;</span> <span class="attr">PSTM=1470329258;</span> <span class="attr">MCITY=-343%3A340%3A;</span> <span class="attr">BDUSS=nF0MVFiMTVLcUh-Q2MxQ0M3STZGQUZ4N2hBa1FFRkIzUDI3QlBCZjg5cFdOd1pZQVFBQUFBJCQAAAAAAAAAAAEAAADpLvgG0KGyvLrcyfrG-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFaq3ldWqt5XN;</span> <span class="attr">H_PS_PSSID=1447_18240_21105_21386_21454_21409_21554;</span> <span class="attr">BD_UPN=12314753;</span> <span class="attr">sug=3;</span> <span class="attr">sugstore=0;</span> <span class="attr">ORIGIN=0;</span> <span class="attr">bdime=0;</span> <span class="attr">H_PS_645EC=7e2ad3QHl181NSPbFbd7PRUCE1LlufzxrcFmwYin0E6b%2BW8bbTMKHZbDP0g;</span> <span class="attr">BDSVRTM=0</span>　　</span><br><span class="line">　　<span class="comment">#浏览器用这个属性向服务器发送Cookie。Cookie是在浏览器中寄存的小型数据体，它可以记载和服务器相关的用户信息，也可以用来实现会话功能</span></span><br><span class="line">　　<span class="attr">Content-Type</span> = Text/XML; <span class="attr">charset=gb2312：</span>	<span class="comment">#POST数据类型，指明该请求的消息体中包含的是纯文本的XML类型的数据，字符编码采用“gb2312”。</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-4-浏览器http请求"><a href="#2-4-浏览器http请求" class="headerlink" title="2.4 浏览器http请求"></a>2.4 浏览器http请求</h3><blockquote>
+<p>　　1. GET - 从服务器获取数据<br>　　　　请求显示再浏览器网址上，http服务器根据url中参数相应请求内容，请求的参数为URL的一部分。<br>　　2. POST - 向服务器发送数据<br>　　　　请求参数显示在请求体中，消息长度没有限制而且以隐式的方式进行发送，通常用来向HTTP服务器提交量比较大的数据（比如请求中包含许多参数或者文件上传操作等），请求的参数包含在“Content-Type”消息头里，指明该消息体的媒体类型和编码，  </p>
+</blockquote>
+<h3 id="2-5-http响应格式"><a href="#2-5-http响应格式" class="headerlink" title="2.5 http响应格式"></a>2.5 http响应格式</h3><blockquote>
+<p>　　状态行 | 消息报头 | 空行 | 响应正文  </p>
+</blockquote>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#典型http响应示例</span></span><br><span class="line"><span class="string">HTTP/1.1</span> <span class="number">200</span> <span class="string">OK</span></span><br><span class="line">　　<span class="attr">Server:</span> <span class="string">Tengine</span>				<span class="comment">#告诉客户端，服务器的信息</span></span><br><span class="line">　　<span class="attr">Connection:</span> <span class="string">keep-alive</span>		<span class="comment">#回应客户端的Connection：keep-alive，告诉客户端服务器的tcp连接也是一个长连接，客户端可以继续使用这个tcp连接发送http请求</span></span><br><span class="line">　　<span class="attr">Date:</span> <span class="string">Wed,</span> <span class="number">30</span> <span class="string">Nov</span> <span class="number">2016</span> <span class="number">07</span><span class="string">:58:21</span> <span class="string">GMT</span>		<span class="comment">#发送资源时的服务器时间</span></span><br><span class="line">　　<span class="attr">Cache-Control:</span> <span class="literal">no</span><span class="bullet">-cache</span>		<span class="comment">#这个值告诉客户端，服务端不希望客户端缓存资源，在下次请求资源时，必须要从新请求服务器，不能从缓存副本中获取资源。</span></span><br><span class="line">　　<span class="attr">Content-Type:</span> <span class="string">text/html;charset=UTF-8</span>		<span class="comment">#资源文件的类型，还有字符编码。</span></span><br><span class="line">　　<span class="attr">Keep-Alive:</span> <span class="string">timeout=20</span></span><br><span class="line">　　<span class="attr">Vary:</span> <span class="string">Accept-Encoding</span></span><br><span class="line">　　<span class="attr">Pragma:</span> <span class="literal">no</span><span class="bullet">-cache</span>			<span class="comment">#等同于Cache-Control</span></span><br><span class="line">　　<span class="attr">X-NWS-LOG-UUID:</span> <span class="string">bd27210a-24e5-4740-8f6c-25dbafa9c395</span></span><br><span class="line">　　<span class="attr">Content-Length:</span> <span class="number">180945</span></span><br><span class="line"><span class="string">Transfer-Encoding：chunked</span>	<span class="comment">#告诉客户端，服务器发送的资源的方式是分块发送的。最后一块是0长度的。</span></span><br><span class="line">　　<span class="string">&lt;!DOCTYPE</span> <span class="string">html</span> <span class="string">PUBLIC</span> <span class="string">"-//W3C//DTD XHTML 1.0 Transitional//EN"</span> <span class="string">....</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-6-响应状态码"><a href="#2-6-响应状态码" class="headerlink" title="2.6 响应状态码"></a>2.6 响应状态码</h3><blockquote>
+<p>　　1. 100~199：服务器成功接收部分请求，客户端继续提交其他请求 才可以完成整个处理过程；<br>　　2. 200~299：服务器已经成功接收请求并且完成整个处理过程，常用200 OK 表示请求成功；<br>　　3. 300~399： 为完成请求，客户需要进一步细化请求。302 - 请求页面已经临时转移至新url，307/304 - 使用缓存资源；<br>　　4. 400~499： 客户端请求有错，常用404 -无法找到请求页面， 403 - 拒绝访问；<br>　　5. 500~599： 服务器出现错误，常用500 - 请求未完成</p>
+</blockquote>
+<h3 id="2-7-Cookie与Session"><a href="#2-7-Cookie与Session" class="headerlink" title="2.7 Cookie与Session"></a>2.7 Cookie与Session</h3><blockquote>
+<p>　　服务器与客户端交互仅限请求/响应过程，结束后断开，下次请求时，客户端会被默认为新客户端。要保持两端的联系，识别出为上个客户端，就得保存客户端信息。<br>　　1. Cookie - 对客户端，通过记录的信息，确认身份<br>　　2. Session - 对服务端，通过记录的信息，确认身份</p>
+</blockquote>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一-HTTP与HTTPS协议"><span class="toc-text">一 HTTP与HTTPS协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-HTTP协议"><span class="toc-text">1.1 HTTP协议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二-HTTP请求与响应"><span class="toc-text">二 HTTP请求与响应</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-浏览器请求过程"><span class="toc-text">2.1 浏览器请求过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-URL-格式"><span class="toc-text">2.2 URL 格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-http请求格式"><span class="toc-text">2.3 http请求格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-浏览器http请求"><span class="toc-text">2.4 浏览器http请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-http响应格式"><span class="toc-text">2.5 http响应格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-响应状态码"><span class="toc-text">2.6 响应状态码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-Cookie与Session"><span class="toc-text">2.7 Cookie与Session</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+    <a href="/2018/06/01/hello-world/" class="prev">&larr; Prev post Hello World</a>
+  
+
+  
+
+  
+    <a href="/2018/05/01/爬虫1：网络爬虫概念与分类/" class="next">Next post 爬虫1:网络爬虫概念与分类 &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by Tong using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://s1.ax2x.com/2018/06/01/7civz.md.jpg">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/tong123414243">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://twitter.com/SpSwagplayer">
+        
+          <i class="icon iconfont twitter">&#xe600;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://weibo.com/u/6313367074?refer_flag=1001030101_">
+        
+          <i class="icon iconfont weibo">&#xe602;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://www.zhihu.com/people/lord-bear-63/activities">
+        
+          <i class="icon iconfont zhihu">&#xe60b;</i>
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["slideLeft2","slideRight2","flash2"],"timer":true,"delay":5000,"shuffle":true,"count":28};
+var unsplashConfig = {"gravity":"north"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+  turnoffBackgroundImage = true;
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
