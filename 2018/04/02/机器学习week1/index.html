@@ -1,0 +1,406 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="191980662@qq.com">
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="Tong">
+  
+  
+  
+  
+    <meta name="description" content="本机器学习课程主题
+   1.监督学习（参数/非参数算法，支持向量机（SVM),核函数，神经网络）　　2.非监督学习（聚类、降维，推荐系统，深入学习推荐）　　3.机器学习的最佳实践（拟合-偏差/方差理论：在机器学习和人工只能创新过程中）　　4.运用学习算法构建智能机器人、文本的理解（web搜索、反垃圾邮件）、计算机视觉、医疗消息、音频、数据挖掘等。  
+
+WEEK1-Introduction...">
+  
+  <title>Coursera-吴恩达机器学习/第一周 [ Tong ]</title>
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+    <div class="item prev">
+      <a href="/2018/05/01/爬虫1：网络爬虫概念与分类/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        爬虫1:网络爬虫概念与分类
+      </div>
+    </div>
+  
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onClick="openUserCard()">
+          <img id="avatar" src="https://s1.ax2x.com/2018/06/01/7civz.md.jpg"/>
+          <div id="homelink">Tong</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">Categories</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/tong123414243">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  <article id="post">
+    <h1>Coursera-吴恩达机器学习/第一周</h1>
+    <p class="page-title-sub">
+      <span id = "post-title-date">Created at 2018-04-02</span>
+      
+        <span id = "post-title-updated">Updated at 2018-06-04</span>
+      
+      
+      
+      <span id = "post-title-tags">
+      Tag
+      
+      
+        
+        
+        <a href="/tags/ML/">ML</a>
+      
+      </span>
+      
+    </p>
+    
+    <h2 id="本机器学习课程主题"><a href="#本机器学习课程主题" class="headerlink" title="本机器学习课程主题"></a>本机器学习课程主题</h2><blockquote>
+<p>   1.监督学习（参数/非参数算法，支持向量机（SVM),核函数，神经网络）<br>　　2.非监督学习（聚类、降维，推荐系统，深入学习推荐）<br>　　3.机器学习的最佳实践（拟合-偏差/方差理论：在机器学习和人工只能创新过程中）<br>　　4.运用学习算法构建智能机器人、文本的理解（web搜索、反垃圾邮件）、计算机视觉、医疗消息、音频、数据挖掘等。  </p>
+</blockquote>
+<h2 id="WEEK1-Introduction-and-Linear-Regression"><a href="#WEEK1-Introduction-and-Linear-Regression" class="headerlink" title="WEEK1-Introduction and Linear Regression"></a>WEEK1-Introduction and Linear Regression</h2><blockquote>
+<p>　　机器学习不只局限与人工智能。我们可以让机器找到A-B的最短路径，也可以让机器去做诸如web搜索、照片标记、反垃圾邮件等有趣的事情。我们发现，唯一的方法是让机器自己学习如何来解决问题。现在机器学习已经成为计算机的一个能力。  </p>
+</blockquote>
+<h3 id="一-机器学习介绍"><a href="#一-机器学习介绍" class="headerlink" title="一 机器学习介绍"></a>一 机器学习介绍</h3><hr>
+<h4 id="1-1-机器学习概念"><a href="#1-1-机器学习概念" class="headerlink" title="1-1 机器学习概念"></a>1-1 机器学习概念</h4><blockquote>
+<p>　　1. 让计算机拥有学习能力，而不是明确的程序 - Arthur Samuel的描述<br>　　2. E 在 P 的评判下，使程序在处理 T 时的 P 有所提升。 - Tom Mitchell的描述<br>　　　　E - 经验<br>　　　　T - 任务<br>　　　　P - 性能度量值<br>　　以下棋为例，E 表示程序上万次的自我联系的经验；T 表示下棋；P 则为与新对手下棋时赢的概率。 </p>
+</blockquote>
+<h4 id="1-2-机器学习分类"><a href="#1-2-机器学习分类" class="headerlink" title="1-2 机器学习分类"></a>1-2 机器学习分类</h4><p>　　<strong>1. 监督学习（supervised learning）</strong><br>　　<code>监督学习 已知已有数据集且知经验E 的对错区分标签。</code><br>　　<strong>1). 回归（Regression）</strong>  </p>
+<blockquote>
+<p>　　<strong>预测值的变量为连续值</strong>，即输出值为一系列连续值，<br>　　例子：已知一组数据包含有，<br>　　　　房屋面积（x）<br>　　　　对应价格（y）<br>　　求出房屋面积为（x=x_0）对应的预测值，即价格y_0。  </p>
+</blockquote>
+<p>　　<strong>2). 分类（Classification）</strong>  </p>
+<blockquote>
+<p>　　<strong>预测值的变量为离散值</strong>，<br>　　例子：已知一组数据包含有，<br>　　　　肿瘤大小（size）<br>　　　　对应性质（良- 0/恶性- 1）<br>　　判断特定肿瘤大小（size=size_0）时对应的性质。  </p>
+</blockquote>
+<p>　　<strong>2. 非监督学习（Unsupervised Learning）</strong><br>　　<code>非监督学习 已知已有数据集，但未知分类标签</code><br>　　<strong>1). 聚类（Clustering）</strong>  </p>
+<blockquote>
+<p>　　<strong>找出某种结构，将数据集判断分为不同的簇</strong><br>　　例子：谷歌新闻中，将新闻分组，组成有关联的新闻，这些分到一组的新闻全为同一主题。  </p>
+</blockquote>
+<p>　　<strong>2). 非聚类（non-Clustering）</strong>  </p>
+<blockquote>
+<p>　　鸡尾酒宴会中，将两个人在放置2个麦克风的房间的录音区分出来  </p>
+</blockquote>
+<p><div align="center"><img src="http://i1.bvimg.com/648377/5933855e30843853s.png" alt="鸡尾酒宴会录音">  </div></p>
+<h3 id="二-单变量线性回归"><a href="#二-单变量线性回归" class="headerlink" title="二 单变量线性回归"></a>二 单变量线性回归</h3><hr>
+<h4 id="2-1-假设函数-hypothesis"><a href="#2-1-假设函数-hypothesis" class="headerlink" title="2-1 假设函数(hypothesis)"></a>2-1 假设函数(hypothesis)</h4><p>　　<strong>模型定义</strong><br>　　定义以下符号：  </p>
+<p><div align="center"><img src="http://i1.bvimg.com/648377/478acd8eafd5baf9s.png" alt="符号定义">  </div></p>
+<blockquote>
+<p>　　对于监督学习，我们的目标是，给定一个数据集，通过学生算法得到一个函数h:X→Y，使得h(x)可以更好的预测出x先对y得值。此处的函数h，称之为假设函数。<br>　　按照房价预测模型，它是单变量线性回归模型，我们可以设它的假设函数为h_θ (x)=θ_0+θ_1 x，</p>
+</blockquote>
+<p><div align="center"><img src="http://i1.bvimg.com/648377/5d03f9a13e6a18a0s.png" alt="房价数据集"></div></p>
+<p><div align="center"><img src="http://i1.bvimg.com/648377/0f41e73e84a944ecs.png" alt="预测房价模型">  </div></p>
+<blockquote>
+<p>　　用一条直线来模拟房价走势，房价为连续值，称之为线性回归，属于监督学习问题。</p>
+</blockquote>
+<p><div align="center"><img src="http://i2.bvimg.com/648377/395c59e7d0969fbas.png" alt="房价走势图">  
+　　　</div></p>
+<h4 id="2-2-代价函数-Cost-function"><a href="#2-2-代价函数-Cost-function" class="headerlink" title="2-2 代价函数(Cost function)"></a>2-2 代价函数(Cost function)</h4><p><div align="center"><img src="http://i2.bvimg.com/648377/236d70d71ee92cbbs.png" alt="房价数据集">  </div></p>
+<blockquote>
+<p>　　为了能符合模型，为我们的模型选择合适的参数θ_0与θ_1。选择的参数将决定我们得到的回归线相对于我们的训练集的准确程序，而模型预测值与训练集中实际值的差距（下图中的蓝线），我们称为建模误差（modeling error）。  </p>
+</blockquote>
+<p><div align="center"><img src="http://i1.bvimg.com/648377/a0caa939959f2b72s.png" alt="建模误差"></div></p>
+<blockquote>
+<p>　　目标：选择出可以使建模误差的平方和达到最小的建模参数，即定义代价函数为：  </p>
+</blockquote>
+<p><div align="center"><img src="http://i1.bvimg.com/648377/0f2c384956cc129cs.png" alt="代价函数"><br>　　<code>如何使J达到最小化呢？如下图所示，存在一个使J最小的点</code>  </div></p>
+<p><div align="center"><img src="http://i1.bvimg.com/648377/c0e0457bec8ed003s.png" alt="代价函数与参数的三维空间图">  </div></p>
+<blockquote>
+<p>　　为方便讲解，将其由轮廓图代替（如下图），下图右边为J的轮廓图，每个圆圈代表使J相同的所有点的集合。中心点为最小值。<br>　　假设某个点为红色交叉点（θ_0=800,θ_1=-0.15），则其对应的h(x)直线为左边图。可以看出其不能很好地拟合训练集。  </p>
+</blockquote>
+<p><div align="center"><img src="http://i1.bvimg.com/648377/503451478048de80s.png" alt="轮廓图">  </div></p>
+<p><div align="center"><img src="http://i1.bvimg.com/648377/f1d7c18dd9d0cf9dt.jpg" alt="代价函数直观理解图">  </div></p>
+<h4 id="2-3-求min-J-的两种算法"><a href="#2-3-求min-J-的两种算法" class="headerlink" title="2-3 求min(J)的两种算法"></a>2-3 求min(J)的两种算法</h4><p>　　<strong>2-3-1 梯度下降(Gradient Descent)</strong>  </p>
+<blockquote>
+<p>　　思想：开始时我们随机选择一个参数的组合(θ_0,θ_1,……,θ_n )，计算代价函数，然后我们寻找下一个能让代价函数值下降最多的参数组合。我们持续这么做直到到到一个局部最小值（local minimum），因为我们并没有尝试完所有的参数组合，所以不能确定我们得到的局部最小值是否便是全局最小值（global minimum），选择不同的初始参数组合，可能会找到不同的局部最小值。  </p>
+</blockquote>
+<p><div align="center"><img src="http://i1.bvimg.com/648377/9392577740a45c3es.png" alt="梯度下降"><br>　　<strong>批量梯度下降(batch gradient descent)公式：</strong>  </div></p>
+<p><div align="center"><img src="http://i1.bvimg.com/648377/a8ff555680bebd93s.png" alt="批量梯度下降"></div></p>
+<blockquote>
+<p>　　　　a：学习率，决定了我们沿着代价函数下降程度最大方向向下迈出的步子大小。<br>　　　　J偏导数：梯度下降方向。<br>　　　　同步更新：更新梯度下降函数时，要通过计算完参数值，然后再同时一起更新参数。  </p>
+</blockquote>
+<p>　　<strong>梯度下降算法公式：</strong>  </p>
+<p><div align="center"><img src="http://i2.bvimg.com/648377/6404172d58e7bc37s.png" alt="梯度下降算法"></div></p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#本机器学习课程主题"><span class="toc-text">本机器学习课程主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WEEK1-Introduction-and-Linear-Regression"><span class="toc-text">WEEK1-Introduction and Linear Regression</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一-机器学习介绍"><span class="toc-text">一 机器学习介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-机器学习概念"><span class="toc-text">1-1 机器学习概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-机器学习分类"><span class="toc-text">1-2 机器学习分类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二-单变量线性回归"><span class="toc-text">二 单变量线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-假设函数-hypothesis"><span class="toc-text">2-1 假设函数(hypothesis)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-代价函数-Cost-function"><span class="toc-text">2-2 代价函数(Cost function)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-求min-J-的两种算法"><span class="toc-text">2-3 求min(J)的两种算法</span></a></li></ol></li></ol></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+    <a href="/2018/05/01/爬虫1：网络爬虫概念与分类/" class="prev">&larr; Prev post 爬虫1:网络爬虫概念与分类</a>
+  
+
+  
+
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by Tong using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://s1.ax2x.com/2018/06/01/7civz.md.jpg">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/tong123414243">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://twitter.com/SpSwagplayer">
+        
+          <i class="icon iconfont twitter">&#xe600;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://weibo.com/u/6313367074?refer_flag=1001030101_">
+        
+          <i class="icon iconfont weibo">&#xe602;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://www.zhihu.com/people/lord-bear-63/activities">
+        
+          <i class="icon iconfont zhihu">&#xe60b;</i>
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["slideLeft2","slideRight2","flash2"],"timer":true,"delay":5000,"shuffle":true,"count":28};
+var unsplashConfig = {"gravity":"north"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+  turnoffBackgroundImage = true;
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
