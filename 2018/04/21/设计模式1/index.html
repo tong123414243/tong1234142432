@@ -1,0 +1,410 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="191980662@qq.com">
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="Tong">
+  
+  
+  
+  
+    <meta name="description" content="观察者模式
+Observer的定义
+&emsp;观察者模式定义一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象  ；&emsp;这个主题对象在状态上发生变化时，会通知所有观察者对象，让它们能够自动更新自己。
+
+理解
+&emsp;一小孩子睡觉，等小孩醒过来之后，妈妈需要喂食，爸爸要哄哄抱抱，小狗汪汪叫。小孩子就是被观察的对象，后面3个对象是观察者。小孩状态一发生改变，就相当于一个事...">
+  
+  <title>设计模式-观察者模式 [ Tong ]</title>
+  
+  
+    <link rel="shortcut icon" href="/favicon1.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+    <div class="item prev">
+      <a href="/2018/04/23/反射机制/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        反射机制
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2018/04/02/机器学习week1/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Coursera-吴恩达机器学习/第一周
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onClick="openUserCard()">
+          <img id="avatar" src="https://s1.ax2x.com/2018/06/01/7civz.md.jpg"/>
+          <div id="homelink">Tong</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">Categories</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/tong123414243">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  <article id="post">
+    <h1>设计模式-观察者模式</h1>
+    <p class="page-title-sub">
+      <span id = "post-title-date">撰写于 2018-04-21</span>
+      
+        <span id = "post-title-updated">修改于 2018-08-02</span>
+      
+      
+      <span id = "post-title-categories">分类
+      
+      
+        
+        
+        <a href="/categories/技术/">技术</a>
+      
+      </span>
+      
+      
+      <span id = "post-title-tags">
+      标签
+      
+      
+        
+        
+        <a href="/tags/设计模式/">设计模式</a>
+      
+      </span>
+      
+    </p>
+    
+    <h3 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h3><hr>
+<h4 id="Observer的定义"><a href="#Observer的定义" class="headerlink" title="Observer的定义"></a>Observer的定义</h4><blockquote>
+<p>&emsp;观察者模式定义一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象  ；<br>&emsp;这个主题对象在状态上发生变化时，会通知所有观察者对象，让它们能够自动更新自己。</p>
+</blockquote>
+<h4 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h4><blockquote>
+<p>&emsp;一小孩子睡觉，等小孩醒过来之后，妈妈需要喂食，爸爸要哄哄抱抱，小狗汪汪叫。小孩子就是被观察的对象，后面3个对象是观察者。小孩状态一发生改变，就相当于一个事件被处罚了，观察者则做出对应的动作。</p>
+</blockquote>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><ul>
+<li>step1 定义被观察者<blockquote>
+<p>这里定义被观察者为小孩 Child  </p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Child</span> <span class="title">implement</span> <span class="title">Runnable</span> &#123;</span><br><span class="line">	<span class="comment">//使用一个List用于存放订阅的观察者</span></span><br><span class="line">	<span class="keyword">private</span> List&lt;WakeUpListener&gt; wakeUpListeners = <span class="keyword">new</span> ArrayList&lt;WakeUpListener&gt;();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//List中增加新订阅的观察者</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addWakeUpListener</span>(<span class="params">WakeUpListener l</span>) </span>&#123;</span><br><span class="line">		wakeUpListeners.<span class="keyword">add</span>(l);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//被观察者小孩状态改变，进行通知观察者，观察者们执行各自的performAction方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">wakeUp</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= wakeUpListeners.size(); i++) &#123;</span><br><span class="line">			WakeUpListener l = wakeUpListeners.<span class="keyword">get</span>(i);</span><br><span class="line">			l.performAction(<span class="keyword">new</span> WakeUpEvent(System.currentTimeMillis(),<span class="string">"沙发上"</span>,<span class="keyword">this</span>));</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//run()</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">		&#125;<span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">this</span>.wakeUp();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>step2 定义观察者接口<blockquote>
+<p>WakeUpListener ，观察者的具体实现类通过这个接口去实现。  </p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title">WakeUpListener</span> &#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">performAction</span>(<span class="params">WakeUpEvent e</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>step3 实现具体观察者类<blockquote>
+<p>分别实现 Mam，Dad，Dog，三个观察者类  </p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 实现观察者类，重写接口WakeUpListener的performAction方法 -用于对child状态  </span></span><br><span class="line"><span class="comment"> * 发生改变时，对应事件进行相应动作</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">// Mam</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Mam</span> <span class="title">implement</span> <span class="title">WakeUpLitener</span> &#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">performAction</span> (<span class="params">WakeUpEvent e</span>) </span>&#123;</span><br><span class="line">		System.<span class="keyword">out</span>.println(<span class="string">"Mam feed.."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Dad</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Dad</span> <span class="title">implement</span> <span class="title">WakeUpEvent</span> &#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">performAction</span> (<span class="params">WakeUpEvent e</span>) </span>&#123;</span><br><span class="line">		System.<span class="keyword">out</span>.println(<span class="string">"Dad hug.."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Dog</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Dog</span> <span class="title">implement</span> <span class="title">WakeUpEvent</span> &#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">performAction</span> (<span class="params">WakeUpEvent e</span>) </span>&#123;</span><br><span class="line">		System.<span class="keyword">out</span>.println(<span class="string">"Dog bark.."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>step4 定义事件类  <blockquote>
+<p>WakeUpEvent ，封装被观察者的状态成事件，不同状态有不同的类； 此处child醒了，为一个状态事件。<br>观察者会对此事件作出反应； </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WakeUpEvent</span> </span>&#123;</span><br><span class="line">	<span class="comment">//描述事件的一些基本信息，如时间，地点，被观察的对象</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">long</span> time;</span><br><span class="line">	<span class="keyword">private</span> String location;</span><br><span class="line">	<span class="keyword">private</span> Child child;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">WackUpEvent</span><span class="params">(<span class="keyword">long</span> time, String location, Child child )</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">		<span class="keyword">this</span>.time = time;</span><br><span class="line">		<span class="keyword">this</span>.location = location;</span><br><span class="line">		<span class="keyword">this</span>.child = child;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> time;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTime</span><span class="params">(<span class="keyword">long</span> time)</span> </span>&#123;</span><br><span class="line">         <span class="keyword">this</span>.time = time;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getLocation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> location;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLocation</span><span class="params">(String location)</span> </span>&#123;</span><br><span class="line">         <span class="keyword">this</span>.location = location;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Child <span class="title">getChild</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> child;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setChild</span><span class="params">(Child child)</span> </span>&#123;</span><br><span class="line">         <span class="keyword">this</span>.child = child;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><p>step5 读取配置文件</p>
+<blockquote>
+<p>将读取配置文件的操作封装到类中，对用户隐藏 配置文件为Observers.properties, 只是简单的键值对关系：observers=Mam,Dad,Dog</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *将读取配置文件的 操作封装在类中，使用静态代码块的形式，</span></span><br><span class="line"><span class="comment"> *在类加载的时候讲配置文件加载进内存</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//提高代码灵活性，避免反复的执行加载配置文件的操作</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PropertyMgr</span> </span>&#123;</span><br><span class="line">	<span class="comment">//重要的思想： 缓存</span></span><br><span class="line">	<span class="comment">//单例初步以及缓存：把硬盘上的内容缓存到内存上</span></span><br><span class="line">	<span class="comment">//缓存策略：访问最多的文件进行缓存</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Properties props = <span class="keyword">new</span> <span class="type">Properties</span>();</span><br><span class="line">	<span class="comment">//此处使用静态代码块，类加载的时候初始化一次, </span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">static</span> &#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			props.load(ObserveTest.class.getClassLoader().getResourceAsStream(</span><br><span class="line">						<span class="string">"Observers.properties"</span>);</span><br><span class="line">		&#125;<span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//定义静态static方法，方便在类外直接访问</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> getProperty(<span class="keyword">String</span> key) throws IOException &#123;</span><br><span class="line">		<span class="keyword">return</span> props.getProperty(key);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>step6 编写测试类</p>
+<blockquote>
+<p>main</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.omg.CORBA.PRIVATE_MEMBER;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObserveTest</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">/*</span></span><br><span class="line"><span class="comment">		 * @param args</span></span><br><span class="line"><span class="comment">		 * @throws IOException</span></span><br><span class="line"><span class="comment">		 * @throws ClassNotFoundException</span></span><br><span class="line"><span class="comment">		 * @throws IllegalAccessException</span></span><br><span class="line"><span class="comment">		 * @throws InstantiationEception</span></span><br><span class="line"><span class="comment">		 *</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		<span class="keyword">public</span> <span class="keyword">static</span> void main(<span class="keyword">String</span>[] args) throws Exception &#123;</span><br><span class="line">			<span class="keyword">String</span> observers[] = PropertyMgr.getProperty(<span class="string">"observers"</span>).split(<span class="string">","</span>);</span><br><span class="line">			Child child = <span class="keyword">new</span> <span class="type">Child</span>();</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">String</span> s : <span class="type">observers</span>) &#123;</span><br><span class="line">				child.addWakeUpListener((WakeUpListener) Class.forName(s)</span><br><span class="line">					.<span class="keyword">new</span><span class="type">Instance</span>());</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">new</span> <span class="type">Thread</span>(child).start();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></blockquote>
+</li>
+</ul>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <div class="random-toc">
+    <h2>目录</h2>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#观察者模式"><span class="toc-text">观察者模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Observer的定义"><span class="toc-text">Observer的定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#理解"><span class="toc-text">理解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+    <a href="/2018/04/23/反射机制/" class="prev">&larr; 上一篇 反射机制</a>
+  
+
+  
+
+  
+    <a href="/2018/04/02/机器学习week1/" class="next">下一篇 Coursera-吴恩达机器学习/第一周 &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by Tong using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://s1.ax2x.com/2018/06/01/7civz.md.jpg">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/tong123414243">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://twitter.com/SpSwagplayer">
+        
+          <i class="icon iconfont twitter">&#xe600;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://weibo.com/u/6313367074?refer_flag=1001030101_">
+        
+          <i class="icon iconfont weibo">&#xe602;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://www.zhihu.com/people/lord-bear-63/activities">
+        
+          <i class="icon iconfont zhihu">&#xe60b;</i>
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["slideLeft2","slideRight2","flash2"],"timer":true,"delay":5000,"shuffle":true,"count":28};
+var unsplashConfig = {"gravity":"north"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+  turnoffBackgroundImage = true;
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+

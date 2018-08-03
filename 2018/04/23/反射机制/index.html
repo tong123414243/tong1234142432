@@ -1,0 +1,440 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="191980662@qq.com">
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="Tong">
+  
+  
+  
+  
+    <meta name="description" content="类对象概念
+所有类，都存在一个类对象，这个类对象用于提供这个类本身的信息，比如有几种构造方法、有多少属性，多少实例方法。
+
+获取类对象的方式
+
+Class.forName  
+GaRen.Class  
+new GaRen().getClass()在一个JVM中，一种类只存在一个类对象。上述3种方式取出来的类对象都是一样的。(准确地讲，在一个ClassLoader下，一种类，只会存在一个类对...">
+  
+  <title>反射机制 [ Tong ]</title>
+  
+  
+    <link rel="shortcut icon" href="/favicon1.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+    <div class="item prev">
+      <a href="/2018/04/24/注解/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        注解
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2018/04/21/设计模式1/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        设计模式-观察者模式
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onClick="openUserCard()">
+          <img id="avatar" src="https://s1.ax2x.com/2018/06/01/7civz.md.jpg"/>
+          <div id="homelink">Tong</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">Categories</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/tong123414243">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  <article id="post">
+    <h1>反射机制</h1>
+    <p class="page-title-sub">
+      <span id = "post-title-date">撰写于 2018-04-23</span>
+      
+        <span id = "post-title-updated">修改于 2018-08-03</span>
+      
+      
+      <span id = "post-title-categories">分类
+      
+      
+        
+        
+        <a href="/categories/技术/">技术</a>
+      
+      </span>
+      
+      
+      <span id = "post-title-tags">
+      标签
+      
+      
+        
+        
+        <a href="/tags/java/">java</a>
+      
+      </span>
+      
+    </p>
+    
+    <h3 id="类对象"><a href="#类对象" class="headerlink" title="类对象"></a>类对象</h3><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><blockquote>
+<p>所有类，都存在一个类对象，这个类对象用于提供这个类本身的信息，比如有几种构造方法、有多少属性，多少实例方法。</p>
+</blockquote>
+<h4 id="获取类对象的方式"><a href="#获取类对象的方式" class="headerlink" title="获取类对象的方式"></a>获取类对象的方式</h4><blockquote>
+<ol>
+<li>Class.forName  </li>
+<li>GaRen.Class  </li>
+<li>new GaRen().getClass()<br>在一个JVM中，一种类只存在一个类对象。上述3种方式取出来的类对象都是一样的。(准确地讲，在一个ClassLoader下，一种类，只会存在一个类对象。而通常在一个JVM下，只会有一个ClassLoader。)  <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> reflectTest;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.swagplayer.HeroPack.GaRen;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> TestReflection &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) &#123;</span><br><span class="line">		String className = <span class="string">"com.swagplayer.HeroPack.GaRen"</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">Class</span> pClass1 = <span class="keyword">Class</span>.forName(className);</span><br><span class="line">			<span class="keyword">Class</span> pClass2 = GaRen.<span class="keyword">class</span>;</span><br><span class="line">			<span class="keyword">Class</span> pClass3 = <span class="keyword">new</span> GaRen().getClass();</span><br><span class="line">			System.out.<span class="keyword">println</span>(pClass1==pClass2);</span><br><span class="line">			System.out.<span class="keyword">println</span>(pClass1==pClass3);</span><br><span class="line">			</span><br><span class="line">		&#125;<span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+  <div align="center"><img src="https://p9sotzqyr.bkt.clouddn.com/blog/180802/9i6I3eLhf8.png?imageslim" alt="示例1结果"></div>
+
+<h4 id="类属性被初始化问题"><a href="#类属性被初始化问题" class="headerlink" title="类属性被初始化问题"></a>类属性被初始化问题</h4><blockquote>
+<p>当获取类对象的时候，会导致类属性被初始化。3种获取类对象方式中，只有 Class pClass2 = GaRen.class 这种方式，不会导致类属性被初始化。<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> reflectTest;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.swagplayer.HeroPack.GaRen;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> TestReflection &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) &#123;</span><br><span class="line">		String className = <span class="string">"com.swagplayer.HeroPack.GaRen"</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">Class</span> pClass1 = <span class="keyword">Class</span>.forName(className);</span><br><span class="line">			<span class="keyword">Class</span> pClass2 = GaRen.<span class="keyword">class</span>;</span><br><span class="line">			<span class="keyword">Class</span> pClass3 = <span class="keyword">new</span> GaRen().getClass();</span><br><span class="line">			<span class="comment">//System.out.println(pClass1==pClass2);</span></span><br><span class="line">			<span class="comment">//System.out.println(pClass1==pClass3);</span></span><br><span class="line">			</span><br><span class="line">		&#125;<span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">package</span> com.swagplayer.HeroPack;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> GaRen <span class="keyword">implements</span> Hero&#123;</span><br><span class="line">	<span class="keyword">static</span> String oldName;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> printHeroName() &#123;</span><br><span class="line">		System.out.<span class="keyword">println</span>(<span class="string">"I'm GaRen"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> &#123;</span><br><span class="line">		System.out.<span class="keyword">println</span>(<span class="string">"初始化  oldName"</span>);</span><br><span class="line">		oldName = <span class="string">"GAREN"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<div align="center"><img src="https://p9sotzqyr.bkt.clouddn.com/blog/180802/K7mi4FB5lm.png?imageslim" alt="结果"></div>
+
+<h4 id="用处"><a href="#用处" class="headerlink" title="用处"></a>用处</h4><blockquote>
+<p>使用反射方式和配置文件。可以通过取出配置文件中的类名称和方法名称，然后通过反射方式去调用这个方法。 这样，在业务方法较多的情况下，可以通过切换调用到第x个业务方法，不需要修改一行代码，也不需要重新编译。<br>这是Spring框架的最基本原理。</p>
+</blockquote>
+<ul>
+<li>src.spring.txt<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">class1</span>=com.swagplayer.HeroPack.Service1</span><br><span class="line"><span class="attr">method1</span>=doService1</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>reflectTest.TestReflection.java<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> reflectTest;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflection</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	@SuppressWarnings(&#123;<span class="string">"rawtypes"</span>,<span class="string">"unchecked"</span>&#125;)</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> void main(<span class="keyword">String</span>[] args) throws Exception &#123;</span><br><span class="line">		<span class="comment">//从spring.txt 获取名称和方法名称</span></span><br><span class="line">		File springConfigFile = <span class="keyword">new</span> <span class="type">File</span>(<span class="string">"E:\\eclipse Jee\\reflectTest\\src\\spring.txt"</span>);</span><br><span class="line">		Properties springConfig = <span class="keyword">new</span> <span class="type">Properties</span>();</span><br><span class="line">		springConfig.load(<span class="keyword">new</span> <span class="type">FileInputStream</span>(springConfigFile));</span><br><span class="line">		<span class="keyword">String</span> className = (<span class="keyword">String</span>) springConfig.getProperty(<span class="string">"class1"</span>);</span><br><span class="line">		<span class="keyword">String</span> methodName = (<span class="keyword">String</span>) springConfig.getProperty(<span class="string">"method1"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//根据类名称获取类对象</span></span><br><span class="line">		Class cl1 = Class.forName(className);</span><br><span class="line">		<span class="comment">//根据方法名称，获取方法对象</span></span><br><span class="line">		Method m = cl1.getMethod(methodName);</span><br><span class="line">		<span class="comment">//获取构造器</span></span><br><span class="line">		Constructor c = cl1.getConstructor();</span><br><span class="line">		<span class="comment">//根据构造器，实例化出对象</span></span><br><span class="line">		Object service = c.<span class="keyword">new</span><span class="type">Instance</span>();</span><br><span class="line">		<span class="comment">//调用对象的指定方法</span></span><br><span class="line">		m.invoke(service);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>package com.swagplayer.HeroPack.Service1.java;<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">package com.swagplayer.HeroPack</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Service1</span> &#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doService1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">			System.<span class="keyword">out</span>.println(<span class="string">"业务方法1"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>package com.swagplayer.HeroPack.Service2.java;<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">package com.swagplayer.HeroPack</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Service2</span> &#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doService2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		System.<span class="keyword">out</span>.println(<span class="string">"业务方法2"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<div align="center"><img src="https://p9sotzqyr.bkt.clouddn.com/blog/180802/i8AHJl3h28.png?imageslim" alt="结果"></div>
+
+<h4 id="与传统的不同"><a href="#与传统的不同" class="headerlink" title="与传统的不同"></a>与传统的不同</h4><blockquote>
+<p>与传统的通过new 来获取对象的方式不同反射机制，会先拿到Hero的“类对象”,然后通过类对象获取“构造器对象”<br>再通过构造器对象创建一个对象.<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过反射机制创建一个对象示例</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> reflectTest;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</span><br><span class="line"><span class="keyword">import</span> com.swagplayer.HeroPack.GaRen;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflection</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> void main(<span class="keyword">String</span>[] args) &#123;</span><br><span class="line">		<span class="comment">//传统new方式创建对象</span></span><br><span class="line">		GaRen g = <span class="keyword">new</span> <span class="type">GaRen</span>();</span><br><span class="line">		g.name = <span class="string">"GAREN1"</span>;</span><br><span class="line">		System.out.println(g + <span class="string">"\t"</span> + g.name);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">//反射方式创建对象</span></span><br><span class="line">			<span class="keyword">String</span> className = <span class="string">"com.swagplayer.HeroPack.GaRen"</span>;</span><br><span class="line">			<span class="comment">//类对象</span></span><br><span class="line">			Class pClass = Class.forName(className);</span><br><span class="line">			<span class="comment">//构造器</span></span><br><span class="line">			Constructor c = pClass.getConstructor();</span><br><span class="line">			<span class="comment">//通过构造器 实例化</span></span><br><span class="line">			GaRen g2 = (GaRen) c.<span class="keyword">new</span><span class="type">Instance</span>();</span><br><span class="line">			g2.name = <span class="string">"GAREN22"</span>;</span><br><span class="line">			System.out.println(g2 + <span class="string">"\t"</span> + g2.name);</span><br><span class="line">		</span><br><span class="line">		&#125; <span class="keyword">catch</span>(Exception e) &#123;</span><br><span class="line">			</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<div align="center"><img src="https://p9sotzqyr.bkt.clouddn.com/blog/180802/G9d9kbHLEI.png?imageslim" alt="结果"></div>
+
+<blockquote>
+<p>配置文件获取对象</p>
+</blockquote>
+<ul>
+<li><p>package reflectTest.TestReflection.java</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> reflectTest;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.swagplayer.HeroPack.ADHero;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflection</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> ADHero getHero() throws Exception &#123;</span><br><span class="line">		File heroConfigFile = <span class="keyword">new</span> <span class="type">File</span>(<span class="string">"E:\\eclipse Jee\\reflectTest\\src\\hero.config"</span>);</span><br><span class="line">		Properties heroConfig = <span class="keyword">new</span> <span class="type">Properties</span>();</span><br><span class="line">		heroConfig.load(<span class="keyword">new</span> <span class="type">FileInputStream</span>(heroConfigFile));</span><br><span class="line">		<span class="keyword">String</span> className = (<span class="keyword">String</span>) heroConfig.getProperty(<span class="string">"class1"</span>);</span><br><span class="line">		</span><br><span class="line">		Class ADHero1 = Class.forName(className);</span><br><span class="line">		Constructor c = ADHero1.getConstructor();</span><br><span class="line">		ADHero a = (ADHero) c.<span class="keyword">new</span><span class="type">Instance</span>();</span><br><span class="line">		<span class="keyword">return</span> a;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> void main(<span class="keyword">String</span>[] args) throws Exception &#123;</span><br><span class="line">		ADHero a = getHero();</span><br><span class="line">		a.physicAttack();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>src.hero.config</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class=com<span class="selector-class">.swagplayer</span><span class="selector-class">.HeroPack</span><span class="selector-class">.ADHero</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>com.swagplayer.HeroPack.ADHero.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.swagplayer.HeroPack;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ADHero</span> <span class="keyword">implements</span> <span class="title">Hero</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printHeroName</span><span class="params">( )</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"AD"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">physicAttack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"进行物理攻击"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="如何通过反射修改对象属性"><a href="#如何通过反射修改对象属性" class="headerlink" title="如何通过反射修改对象属性"></a>如何通过反射修改对象属性</h4><ul>
+<li><p>package charactor.Hero.java</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> charactor;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hero</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> name;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>package reflection.TestReflection.java</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> reflection;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> charactor.Hero;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflection</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> void main(<span class="keyword">String</span>[] args) &#123;</span><br><span class="line">            Hero h =<span class="keyword">new</span> <span class="type">Hero</span>();</span><br><span class="line">            <span class="comment">//使用传统方式修改name的值为garen</span></span><br><span class="line">            h.name = <span class="string">"garen"</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">//获取类Hero的名字叫做name的字段</span></span><br><span class="line">                Field f1= h.getClass().getDeclaredField(<span class="string">"name"</span>);</span><br><span class="line">                <span class="comment">//修改这个字段的值</span></span><br><span class="line">                f1.<span class="keyword">set</span>(h, <span class="string">"teemo"</span>);</span><br><span class="line">                <span class="comment">//打印被修改后的值</span></span><br><span class="line">                System.out.println(h.name);</span><br><span class="line">                 </span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>getField与getDeclaredField的区别：<br>&emsp;都用于获取字段。<br>&emsp;但是getField只获取public，包括从父类继承来的字段；<br>&emsp;getDeclaredField 可以获取本类所有字段，但不能获取继承来的字段。（这里只能获取到private的字段，但并不能访问该private字段的值,除非加上setAccessible(true))</p>
+</blockquote>
+<h4 id="如何通过反射调用对象方法"><a href="#如何通过反射调用对象方法" class="headerlink" title="如何通过反射调用对象方法"></a>如何通过反射调用对象方法</h4><ul>
+<li><p>package charactor.Hero.java</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> charactor;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hero</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> name;</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> void setName(<span class="keyword">String</span> name) &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>package reflection.TestReflection.java</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> reflection;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> charactor.Hero;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestReflection</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> void main(<span class="keyword">String</span>[] args) &#123;</span><br><span class="line">        Hero h = <span class="keyword">new</span> <span class="type">Hero</span>();</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 使用传统的方式，调用getName方法</span></span><br><span class="line">            System.out.println(h.getName());</span><br><span class="line">			</span><br><span class="line">			<span class="comment">// 获取这个名字叫做setName，参数类型是String的方法</span></span><br><span class="line">            Method m = h.getClass().getMethod(<span class="string">"setName"</span>, <span class="keyword">String</span>.class);</span><br><span class="line">            <span class="comment">// 对h对象，调用这个方法</span></span><br><span class="line">            m.invoke(h, <span class="string">"盖伦"</span>);</span><br><span class="line">            </span><br><span class="line"> </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <div class="random-toc">
+    <h2>目录</h2>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#类对象"><span class="toc-text">类对象</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#概念"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取类对象的方式"><span class="toc-text">获取类对象的方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#类属性被初始化问题"><span class="toc-text">类属性被初始化问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用处"><span class="toc-text">用处</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#与传统的不同"><span class="toc-text">与传统的不同</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何通过反射修改对象属性"><span class="toc-text">如何通过反射修改对象属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何通过反射调用对象方法"><span class="toc-text">如何通过反射调用对象方法</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+    <a href="/2018/04/24/注解/" class="prev">&larr; 上一篇 注解</a>
+  
+
+  
+
+  
+    <a href="/2018/04/21/设计模式1/" class="next">下一篇 设计模式-观察者模式 &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by Tong using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://s1.ax2x.com/2018/06/01/7civz.md.jpg">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/tong123414243">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://twitter.com/SpSwagplayer">
+        
+          <i class="icon iconfont twitter">&#xe600;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://weibo.com/u/6313367074?refer_flag=1001030101_">
+        
+          <i class="icon iconfont weibo">&#xe602;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://www.zhihu.com/people/lord-bear-63/activities">
+        
+          <i class="icon iconfont zhihu">&#xe60b;</i>
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["slideLeft2","slideRight2","flash2"],"timer":true,"delay":5000,"shuffle":true,"count":28};
+var unsplashConfig = {"gravity":"north"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+  turnoffBackgroundImage = true;
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+

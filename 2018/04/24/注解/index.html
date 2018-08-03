@@ -1,0 +1,427 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="191980662@qq.com">
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="Tong">
+  
+  
+  
+  
+    <meta name="description" content="1 基本内置注解
+
+
+
+注解
+作用
+
+
+
+
+@Override
+用在方法上，表示方法重写父类方法，如toString()。若父类无此方法，则不能通过编译
+
+
+@Deprecated
+表示方法已过去，不建议开发使用
+
+
+@SuppressWarnings
+忽略警告信息
+
+
+@SafeVarargs
+去掉警告,只能用在参数长度可变的方法或构造方法上，且方法必须声明为static或final，否则...">
+  
+  <title>注解 [ Tong ]</title>
+  
+  
+    <link rel="shortcut icon" href="/favicon1.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+    <div class="item prev">
+      <a href="/2018/05/01/爬虫1：网络爬虫概念与分类/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        爬虫1:网络爬虫概念与分类
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2018/04/23/反射机制/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        反射机制
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onClick="openUserCard()">
+          <img id="avatar" src="https://s1.ax2x.com/2018/06/01/7civz.md.jpg"/>
+          <div id="homelink">Tong</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">Categories</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/tong123414243">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  <article id="post">
+    <h1>注解</h1>
+    <p class="page-title-sub">
+      <span id = "post-title-date">撰写于 2018-04-24</span>
+      
+        <span id = "post-title-updated">修改于 2018-08-03</span>
+      
+      
+      <span id = "post-title-categories">分类
+      
+      
+        
+        
+        <a href="/categories/技术/">技术</a>
+      
+      </span>
+      
+      
+      <span id = "post-title-tags">
+      标签
+      
+      
+        
+        
+        <a href="/tags/注解/">注解</a>
+      
+      </span>
+      
+    </p>
+    
+    <h3 id="1-基本内置注解"><a href="#1-基本内置注解" class="headerlink" title="1 基本内置注解"></a>1 基本内置注解</h3><hr>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@Override</td>
+<td>用在方法上，表示方法重写父类方法，如toString()。若父类无此方法，则不能通过编译</td>
+</tr>
+<tr>
+<td>@Deprecated</td>
+<td>表示方法已过去，不建议开发使用</td>
+</tr>
+<tr>
+<td>@SuppressWarnings</td>
+<td>忽略警告信息</td>
+</tr>
+<tr>
+<td>@SafeVarargs</td>
+<td>去掉警告,只能用在参数长度可变的方法或构造方法上，且方法必须声明为static或final，否则会出现编译错误</td>
+</tr>
+<tr>
+<td>@FunctionalInterface</td>
+<td>用于约定函数式接口</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="1-1-Override"><a href="#1-1-Override" class="headerlink" title="1.1 @Override"></a>1.1 @Override</h4><blockquote>
+<p>@Override，用在方法上，表示这个方法重写了父类的方法，如toString()。若父类无此方法，则编译无法通过。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> <span class="keyword">annotation</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	String name;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="comment">//此方法父类存在，编译是可以通过的</span></span><br><span class="line">	<span class="keyword">public</span> String toString() &#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span> </span><br><span class="line">	<span class="comment">//此方法父类不存在，编译不通过</span></span><br><span class="line">	<span class="keyword">public</span> String inexistence() &#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h4 id="1-2-Deprecated"><a href="#1-2-Deprecated" class="headerlink" title="1.2 @Deprecated"></a>1.2 @Deprecated</h4><blockquote>
+<p>表示此方法已过期，不建议开发使用，也暗示在将来某个不确定版本，可能会取消掉。调用时会受到提示.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> annotation;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	String name;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Deprecated</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hackMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">new</span> Test().hackMap();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h4 id="1-3-SuppressWarnings"><a href="#1-3-SuppressWarnings" class="headerlink" title="1.3 @SuppressWarnings"></a>1.3 @SuppressWarnings</h4><blockquote>
+<p>Suppress是抑制的意思，此注解用于忽略编译器警告信息<br>@SuppressWarnings 有常见的值:<br>  &emsp;· deprecation - 使用了不赞成使用的类或方法时的警告(使用@Deprecated产生的警告)<br>  &emsp;· unchecked - 执行为检查的转换时的警告；如，<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;使用集合时没有用泛型(Generics)来指定集合保存的类型；关闭编译器警告<br>  &emsp;· fallthrough - 当Switch程序块直接通往下一中情况而没有Break时的警告。<br>  &emsp;· path - 在类路径、源文件路径等中有 不存在的路径时的警告。<br>  &emsp;· serial - 当在可序列化的类上缺少serialVersionUID 定义 时的警告。<br>  &emsp;· finally - 任何finally子句不能正常完成时的警告。<br>  &emsp;· rawtypes - 泛型类型未指明。<br>  &emsp;· unused - 引用定义，但未被使用。<br>  &emsp;· all - 关于以上所有情况的警告。<br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">package annotation;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.<span class="built_in">List</span>;</span><br><span class="line"></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">String</span> name;</span><br><span class="line">	<span class="meta">@SuppressWarnings</span>(&#123;<span class="string">"rawtypes"</span>,<span class="string">"unused"</span>&#125;)</span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line">		<span class="built_in">List</span> listTest = <span class="keyword">new</span> ArrayList(); <span class="comment">//向下转型</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h4 id="1-4-SafeVarargs"><a href="#1-4-SafeVarargs" class="headerlink" title="1.4 @SafeVarargs"></a>1.4 @SafeVarargs</h4><blockquote>
+<p>只能用在参数长度可变的方法或者构造方法上，且方法必须声明为static或final，否则会出现编译错误。一个方法使用@SafeVarargs注解的前提是，开发人员必须确保这个方法的实现中对泛型类型参数的处理不会引发类型安全问题。<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> annotation;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> &#123;</span></span><br><span class="line">	</span><br><span class="line">	String name;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@SafeVarargs</span></span><br><span class="line">	<span class="comment">//当使用可变数量的参数的时候，而参数的类型又是泛型T的话，就会出现警告</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; T getFirstOne(T... elements) &#123;</span><br><span class="line">		<span class="keyword">return</span> elements.length &gt; <span class="number">0</span> ? elements[0] : <span class="literal">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h4 id="1-5-FunctionalInterface"><a href="#1-5-FunctionalInterface" class="headerlink" title="1.5 @FunctionalInterface"></a>1.5 @FunctionalInterface</h4><blockquote>
+<p>用于约定函数式接口。<br>函数式接口概念：如果接口中只有一个抽象方法(可以包含多个默认方法或多个static方法)，该接口称为函数式接口，主要配合Lambda表达式。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> annotation;</span><br><span class="line"></span><br><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Test</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="2-自定义注解"><a href="#2-自定义注解" class="headerlink" title="2 自定义注解"></a>2 自定义注解</h3>
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <div class="random-toc">
+    <h2>目录</h2>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-基本内置注解"><span class="toc-text">1 基本内置注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-Override"><span class="toc-text">1.1 @Override</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-Deprecated"><span class="toc-text">1.2 @Deprecated</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-SuppressWarnings"><span class="toc-text">1.3 @SuppressWarnings</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-SafeVarargs"><span class="toc-text">1.4 @SafeVarargs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-FunctionalInterface"><span class="toc-text">1.5 @FunctionalInterface</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-自定义注解"><span class="toc-text">2 自定义注解</span></a></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+    <a href="/2018/05/01/爬虫1：网络爬虫概念与分类/" class="prev">&larr; 上一篇 爬虫1:网络爬虫概念与分类</a>
+  
+
+  
+
+  
+    <a href="/2018/04/23/反射机制/" class="next">下一篇 反射机制 &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by Tong using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://s1.ax2x.com/2018/06/01/7civz.md.jpg">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/tong123414243">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://twitter.com/SpSwagplayer">
+        
+          <i class="icon iconfont twitter">&#xe600;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://weibo.com/u/6313367074?refer_flag=1001030101_">
+        
+          <i class="icon iconfont weibo">&#xe602;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://www.zhihu.com/people/lord-bear-63/activities">
+        
+          <i class="icon iconfont zhihu">&#xe60b;</i>
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["slideLeft2","slideRight2","flash2"],"timer":true,"delay":5000,"shuffle":true,"count":28};
+var unsplashConfig = {"gravity":"north"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+  turnoffBackgroundImage = true;
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
